@@ -8,18 +8,21 @@ import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
-  const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(0.0);
-
+  const [stockQuantity, setStockQuantity] = useState(1); //default value is 1 because we cannot buy 0 stock
+  const [stockPrice, setStockPrice] = useState(0.0);//0.0 because its value is set by user. If we want, we can take its value as props along with uid that is default market value
+  //   Case 2: Limit Order (what your code is doing)
+  // User says: “I want to buy this stock at ₹100, not more”
+  // So: If current price = ₹105 → order waits  || If price drops to ₹100 → order executes
   const handleBuyClick = () => {
     axios.post("http://localhost:3002/newOrder", {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
-      mode: "BUY",
+      mode: "BUY",//sell ke liyemode sell kar dege 
+      //sell ke liye logic will be same, we will add a check for that qty is actually available or not
     });
 
-    GeneralContext.closeBuyWindow();
+    GeneralContext.closeBuyWindow(); //jaise hi order place ho gaya successfully window apne ap close ho jayega
   };
 
   const handleCancelClick = () => {
@@ -36,7 +39,7 @@ const BuyActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
-              onChange={(e) => setStockQuantity(e.target.value)}
+              onChange={(e) => setStockQuantity(e.target.value)}//e	-> event object,  target ->	the input box  ,value ->	what user typed
               value={stockQuantity}
             />
           </fieldset>

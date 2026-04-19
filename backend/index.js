@@ -137,7 +137,7 @@ app.use(bodyParser.json());
 //       qty: item.qty,
 //       avg: item.avg,
 //       price: item.price,
-//       net: item.day,
+//       net: item.net,
 //       day: item.day,
 //     });
 
