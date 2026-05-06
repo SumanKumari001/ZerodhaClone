@@ -16,7 +16,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <GeneralContextProvider>
         <WatchList />
-      </GeneralContextProvider>
+      
       <div className="content">
         <Routes>
           <Route exact path="/" element={<Summary />} />
@@ -27,6 +27,7 @@ const Dashboard = () => {
           <Route path="/apps" element={<Apps />} />
         </Routes>
       </div>
+      </GeneralContextProvider>
     </div>
   );
 };

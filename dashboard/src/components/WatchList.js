@@ -129,13 +129,13 @@ const WatchListItem = ({ stock }) => {
   );
 };
 
-const WatchListActions = ({ uid }) => {
+const WatchListActions = ({ uid,mode }) => {
   const generalContext = useContext(GeneralContext);
-
-  const handleBuyClick = () => {
-    generalContext.openBuyWindow(uid);
+  
+  const handleClick = () => {
+    generalContext.openBuyWindow(uid,mode);
   };
-
+  
   return (
     <span className="actions">
       <span>
@@ -144,18 +144,31 @@ const WatchListActions = ({ uid }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
-          onClick={handleBuyClick}
         >
-          <button className="buy">Buy</button>
+          <button
+            className="buy"
+            onClick={() => generalContext.openBuyWindow(uid, "BUY")}
+          >
+            Buy
+          </button>
         </Tooltip>
+
         <Tooltip
           title="Sell (S)"
           placement="top"
           arrow
           TransitionComponent={Grow}
         >
-          <button className="sell">Sell</button>
+          <button
+            className="sell"
+            onClick={() => generalContext.openBuyWindow(uid, "SELL")}
+          >
+            Sell
+          </button>
         </Tooltip>
+
+
+        
         <Tooltip
           title="Analytics (A)"
           placement="top"

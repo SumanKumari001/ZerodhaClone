@@ -5,7 +5,7 @@ function Hero() {
     <div className="container p-5 mb-5">
       <div className="row text-center">
         <img
-          src="media/images/homeHero.png"
+          src="https://zerodha.com/static/images/landing.svg"
           alt="Hero Image"
           className="mb-5"
         />

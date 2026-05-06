@@ -8,14 +8,14 @@ const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allHoldings").then((res) => {
+    axios.get("http://localhost:3002/api/allHoldings").then((res) => {
       // console.log(res.data);
       setAllHoldings(res.data);
     });
   }, []);
 
   // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  const labels = allHoldings.map((subArray) => subArray["name"]);
+  const labels = allHoldings.map((subArray) => subArray["name"]); //subArray → represents each individual element during iteration
 
   const data = {
     labels,
@@ -50,18 +50,21 @@ const Holdings = () => {
 
       <div className="order-table">
         <table>
-          <tr>
-            <th>Instrument</th>
-            <th>Qty.</th>
-            <th>Avg. cost</th>
-            <th>LTP</th>
-            <th>Cur. val</th>
-            <th>P&L</th>
-            <th>Net chg.</th>
-            <th>Day chg.</th>
-          </tr>
+          <thead>
+              <tr>
+              <th>Instrument</th>
+              <th>Qty.</th>
+              <th>Avg. cost</th>
+              <th>LTP</th>
+              <th>Cur. val</th>
+              <th>P&L</th>
+              <th>Net chg.</th>
+              <th>Day chg.</th>
+            </tr>
+          </thead>
 
-          {allHoldings.map((stock, index) => {
+          <tbody>
+            {allHoldings.map((stock, index) => {
             const curValue = stock.price * stock.qty;
             const isProfit = curValue - stock.avg * stock.qty >= 0.0;
             const profClass = isProfit ? "profit" : "loss";
@@ -80,8 +83,12 @@ const Holdings = () => {
                 <td className={profClass}>{stock.net}</td>
                 <td className={dayClass}>{stock.day}</td>
               </tr>
+              
             );
-          })}
+            
+          }
+           )}
+            </tbody>
         </table>
       </div>
 

@@ -5,19 +5,27 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const { HoldingsModel } = require("./model/HoldingsModel");
-
 const { PositionsModel } = require("./model/PositionsModel");
-const { OrdersModel } = require("./model/OrdersModel");
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
 
 const app = express();
+app.use(express.json());
+// Allow requests from your specific frontend origin
+app.use(cors({ origin: 'http://127.0.0.1:3000' }));
 
-app.use(cors());
+const holdingsRoutes = require("./routes/holdings");
+app.use("/api/allHoldings", holdingsRoutes);
+
+const ordersRoutes = require("./routes/order");
+app.use("/api/allOrders",ordersRoutes);
+
+
 app.use(bodyParser.json());
-
+app.get("/", (req, res) => {
+    res.send("🚀 Backend is working!");
+});
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
 //     {
@@ -187,31 +195,45 @@ app.use(bodyParser.json());
 //   res.send("Done!");
 // });
 
-app.get("/allHoldings", async (req, res) => {
-  let allHoldings = await HoldingsModel.find({});
-  res.json(allHoldings);
+// app.get("/allHoldings", async (req, res) => {
+//   let allHoldings = await HoldingsModel.find({});
+//   res.json(allHoldings);
+// });
+
+// app.get("/allPositions", async (req, res) => {
+//   let allPositions = await PositionsModel.find({});
+//   res.json(allPositions);
+// });
+
+// app.get("/allOrders", async (req, res) => {
+//   let allOrders = await OrdersModel.find({});
+//   res.json(allOrders);
+// });
+
+// app.post("/newOrder", async (req, res) => {
+//   let newOrder = new OrdersModel({
+//     name: req.body.name,
+//     qty: req.body.qty,
+//     price: req.body.price,
+//     mode: req.body.mode,
+//   });
+
+//   await newOrder.save();
+
+//   res.send("Order saved!");
+
+// });
+
+// Centralized Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err); // Good for debugging in terminal
+    res.status(500).json({ error: "Something went wrong! " + err.message });
 });
 
-app.get("/allPositions", async (req, res) => {
-  let allPositions = await PositionsModel.find({});
-  res.json(allPositions);
-});
 
-app.post("/newOrder", async (req, res) => {
-  let newOrder = new OrdersModel({
-    name: req.body.name,
-    qty: req.body.qty,
-    price: req.body.price,
-    mode: req.body.mode,
-  });
-
-  newOrder.save();
-
-  res.send("Order saved!");
-});
-
-app.listen(PORT, () => {
-  console.log("App started!");
-  mongoose.connect(uri);
-  console.log("DB started!");
+app.listen(PORT,"0.0.0.0", () => {
+  console.log(`App started! Server running on port ${PORT}`);
+  mongoose.connect(uri)
+  .then(() => console.log("✅ DB connected"))
+  .catch(err => console.error("❌ DB connection error:", err));
 });

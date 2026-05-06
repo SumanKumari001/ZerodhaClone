@@ -32,6 +32,6 @@ export const options = {
   },
 };
 
-export function VerticalGraph({ data }) {
+export function VerticalGraph({ data }) {//we pass data as props here
   return <Bar options={options} data={data} />;
 }
