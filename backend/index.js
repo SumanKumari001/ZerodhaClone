@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+
 const { PositionsModel } = require("./model/PositionsModel");
 
 const PORT = process.env.PORT || 3002;
@@ -26,6 +27,9 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
     res.send("🚀 Backend is working!");
 });
+
+const authRoutes = require("./routes/authRoutes");
+app.use("/", authRoutes);
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
 //     {
