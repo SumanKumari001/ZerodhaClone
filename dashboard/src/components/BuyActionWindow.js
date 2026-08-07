@@ -59,7 +59,7 @@ const handleClick = async () => {
               name="price"
               id="price"
               step="0.05"
-              onChange={(e) => (Number(setStockPrice(e.target.value)))}
+              onChange={(e) => setStockPrice(Number(e.target.value))}
               value={stockPrice}
             />
           </fieldset>

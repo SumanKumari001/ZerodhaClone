@@ -21,13 +21,16 @@ function Login() {
                     password
                 }
             );
-
+            console.log(res.data);
             localStorage.setItem(
                 "token",
                 res.data.token
             );
-            alert("login successfull")
-            
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            //alert("login successfull")
+            console.log("Redirecting to dashboard...");
+            console.log(window.location.origin);
+            window.location.href = "http://localhost:3001"; 
 
         }
         catch(err){

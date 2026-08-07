@@ -14,7 +14,10 @@ const uri = process.env.MONGO_URL;
 const app = express();
 app.use(express.json());
 // Allow requests from your specific frontend origin
-app.use(cors({ origin: 'http://127.0.0.1:3000' }));
+app.use(cors({
+  origin: ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:3001', 'http://localhost:3001'],
+  credentials: true
+}));
 
 const holdingsRoutes = require("./routes/holdings");
 app.use("/api/allHoldings", holdingsRoutes);

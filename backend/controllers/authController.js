@@ -73,12 +73,18 @@ const registerUser = async(req,res)=>{
 
    }
    catch(err){
+   console.log(err);
 
-      console.log(err);
+      if (err.code === 11000) {
+         return res.status(409).json({
+            success: false,
+            message: "An account with this phone number already exists"
+         });
+      }
 
       res.status(500).json({
-         success:false,
-         message:"Server error"
+         success: false,
+         message: "Server error"
       });
    }
 };
@@ -127,14 +133,15 @@ const login = async (req, res) => {
     );
 
     res.status(200).json({
-
-        success: true,
-
-        message: "Login successful",
-
-        token
-
-    });
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+         id: user._id,
+         name: user.name,
+         MobNo: user.MobNo
+      }
+   });
 
 };
 
